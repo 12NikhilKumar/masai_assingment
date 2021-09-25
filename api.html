@@ -20,6 +20,7 @@
 
     </div>
     <script>
+        var rating = 1;
         var btn = document.getElementById("sub");
         function post(){
             var inpt = document.getElementById("serchBox").value;
@@ -42,6 +43,7 @@
                 // console.log("yes")
                 var response = await fetch(`http://www.omdbapi.com/?apikey=4302a5ec&s=${movieName}`);
                 response = await response.json()
+                console.log(response)
                 createData(response)
             }
             else{
@@ -66,9 +68,21 @@
             var img = document.createElement("img");
             img.src = movieData.Poster;
             var h1 = document.createElement("h3");
+            var p1 = document.createElement("p1");
             h1.innerText = `${movieData.Title} ${movieData.Year}`;
-            div.append(img,h1);
-            return div;
+            p1.innerText = rating;
+            var h2 = document.createElement("h1");
+            h2.innerText = `recomnded`;
+            if(rating > 4){
+                div.append(img,h1,p1,h2);
+                rating += 1;
+                return div;
+            }
+            else{
+                div.append(img,h1,p1);
+                rating += 1;
+                return div;
+            }
         }
         btn.addEventListener('click',post);
     </script>
