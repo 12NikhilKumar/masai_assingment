@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); */
+            /* display: flex; */
+        }
+    </style>
+</head>
+<body>
+    <input id="serchBox" type="text" />
+    <button id="sub">Searchy</button>
+    <div id="container">
+
+    </div>
+    <script>
+        var btn = document.getElementById("sub");
+        function post(){
+            var inpt = document.getElementById("serchBox").value;
+            console.log("yes");
+            return get(inpt)
+        }
+        async function get(movieName){
+            if(movieName != ''){
+                //return fetch(`http://www.omdbapi.com/?apikey=4302a5ec&s=${movieName}`)
+                // .then(function(response){
+                //     return response.json()
+                // })
+                // .then(function(response){
+                //     createData(response)
+                //     console.log(response);
+                // })
+                // .catch(function(err){
+                //     console.log(err);
+                // })
+                // console.log("yes")
+                var response = await fetch(`http://www.omdbapi.com/?apikey=4302a5ec&s=${movieName}`);
+                response = await response.json()
+                createData(response)
+            }
+        }
+        function createData(data){
+            var container = document.getElementById("container");
+            container.innerHTML = "";
+            for(let movieData of data.Search ){
+                const card = create(movieData)
+                container.append(card);
+            }
+        }
+        function create(movieData){
+            var div = document.createElement("div");
+            var img = document.createElement("img");
+            img.src = movieData.Poster;
+            var h1 = document.createElement("h3");
+            h1.innerText = `${movieData.Title} ${movieData.Year}`;
+            div.append(img,h1);
+            return div;
+        }
+        btn.addEventListener('click',post);
+    </script>
+</body>
+</html>
