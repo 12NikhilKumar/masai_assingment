@@ -22,14 +22,21 @@
             background-color: orchid;
             display: flex;
             justify-content: center;
-            gap: 20%;
+            gap: 5%;
         }
-        #navbar button {
+        #navbar button{
             width: 100px;
             height: 45px;
             border-radius: 7px;
             margin-top: 20px;
             background-color: palegreen;
+        }
+        #secrch{
+            width: 200px;
+            height: 35px;
+            border-radius: 7px;
+            margin-top: 20px;
+            background-color: whitesmoke;
         }
     </style>
 </head>
@@ -38,6 +45,9 @@
         <button id="sport">Sports</button>
         <button id="ent">Entertainment</button>
         <button id="tech">Technology</button>
+        <input id="secrch" type="text" placeholder="search here" />
+        <button id="go">Search</button>
+        <button id="next">Next page</button>
     </div>
     <h1 style="text-align: center;">Top 10 NEWS HEADLINES</h1>
     <div id="dis"></div>
@@ -46,6 +56,31 @@
         const sportsBtn = document.getElementById("sport");
         const entBtn = document.getElementById("ent");
         const techBtn = document.getElementById("tech");
+        const serchBtn = document.getElementById("go");
+        const changePage = document.getElementById("next");
+        var pageNo = 1;
+
+        changePage.addEventListener('click',function(){
+                pageNo++;
+                searchNews()
+            })
+
+        function searchNews(){
+            display.innerHTML = "";
+            const serchData = document.getElementById("secrch").value;
+            fetch(`https://newsapi.org/v2/top-headlines?q=${serchData}&apiKey=7765fba270674be9a4aaa8d17665f488&page=${pageNo}&pageSize=5`)
+            .then(function(resolve){
+                return resolve.json()
+            })
+            .then(function(resolve){
+                create(resolve.articles)
+            })
+            .catch(function(reject){
+                console.log(reject)
+            })
+        }
+        serchBtn.addEventListener("click",searchNews)
+        
         function sportNews(){
             display.innerHTML = "";
             fetch("https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=7765fba270674be9a4aaa8d17665f488")
@@ -53,7 +88,6 @@
                 return resolve.json()
             })
             .then(function(resolve){
-                console.log(resolve)
                 create(resolve.articles)
             })
             .catch(function(reject){
@@ -69,7 +103,6 @@
                 return resolve.json()
             })
             .then(function(resolve){
-                console.log(resolve)
                 create(resolve.articles)
             })
             .catch(function(reject){
@@ -85,7 +118,6 @@
                 return resolve.json()
             })
             .then(function(resolve){
-                console.log(resolve)
                 create(resolve.articles)
             })
             .catch(function(reject){
@@ -99,7 +131,6 @@
             return resolve.json()
         })
         .then(function(resolve){
-            console.log(resolve)
             create(resolve.articles)
         })
         .catch(function(reject){
