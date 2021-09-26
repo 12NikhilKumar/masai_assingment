@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #dis img{
+            width: 400px;
+            height: 400px;
+        }
+        #dis {
+            width: 700px;
+            margin: auto;
+            text-align: center;
+            border: 2px solid teal;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Top 10 NEWS HEADLINES</h1>
+    <div id="dis"></div>
+    <script>
+        fetch("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=7765fba270674be9a4aaa8d17665f488")
+        .then(function(resolve){
+            return resolve.json()
+        })
+        .then(function(resolve){
+            console.log(resolve)
+            create(resolve.articles)
+            return resolve
+        })
+        .catch(function(reject){
+            console.log(reject)
+        })
+        function create(userData){
+            for(let data of userData){
+                post(data)
+            }
+        }
+        function post(data){
+            var display =  document.getElementById("dis");
+            var img = document.createElement("img");
+            var h1 = document.createElement("h3");
+            var h2 = document.createElement("h4");
+            img.src = data.urlToImage;
+            h1.innerText = `${data.author} ${data.title}`;
+            h2.innerText = data.description;
+            display.append(img,h1,h2);
+            return display
+        }
+    </script>
+</body>
+</html>

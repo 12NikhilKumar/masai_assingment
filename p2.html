@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="name" placeholder="Enter your Name"/>
+    <input type="number" id="age" placeholder="enter your age" />
+    <button id="register">Register</button>
+    <div id="queue"></div>
+    <script>
+        var count = 4;
+        window.addEventListener("load",function(){
+            const btn = document.getElementById("register");
+            btn.addEventListener("click",register)
+        })
+
+        const queue = ["albert","nurpul","aman","arjun"];
+
+        function checkQueue(){
+            return new Promise(
+                function(resolve,reject){
+                const id = setInterval(
+                    function(){
+                    if(queue[0]==name){
+                        resolve(`${name} its your turn`);
+                        clearInterval(id)
+                    }
+                },1000)
+            })
+        }
+
+        function register(){
+            let message = `there are ${queue.length} people left`
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            if(age > 60){
+                [name].concat(queue)
+                visualize(queue);
+                console.log(queue);
+                alert(message);
+                checkQueue(name)
+                .then(function(message){
+                    alert(message)
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+            }
+            else{
+                queue.push(name);
+                visualize(queue);
+                console.log(queue);
+                alert(message);
+                checkQueue(name)
+                .then(function(message){
+                    alert(message)
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+            }
+        }
+        function vacination(){
+            queue.shift()
+            count -= 1;
+            if(count === 0){
+                alert(`vaccien short`)
+            }
+            if(queue.length === 0){
+                clearInterval( id )
+            }
+            visualize(queue)
+        }
+
+        function visualize(queue){
+            const qcontainer = document.getElementById("queue");
+            qcontainer.innerHTML = "";
+            const ul = document.createElement("ul");
+            const el1 = document.createElement("li");
+            queue.forEach(function(name){
+                const el = document.createElement("li");
+                el.textContent = name;
+                ul.append(el)
+            })
+            el1.textContent = queue.length;
+            qcontainer.append(ul,el1)
+        }
+        const id = setInterval( vacination,2000)
+        visualize(queue)
+    </script>
+</body>
+</html>

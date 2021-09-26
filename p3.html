@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>check for train</h1>
+    <div style="display: flex">
+        <div id="A"></div>
+        <div id="B"></div>
+        <div id="C"></div>
+    </div>
+    <script>
+        const trainA = ["a","b","c","d","e","f","g","h","i"];
+        const trainB = ["j","k","l","m","n","o","p","q","r"];
+        const trainC = ["s","t","u","v","w","x","y","z"];
+
+        async function checkAvailability(){
+            let promise = await new Promise(function(resolve,reject){
+                const id = setInterval(function(){
+                    if(trainA.length < 5){
+                        resolve(`train A is avilable`)
+                        clearInterval(id)
+                    }
+                    else if(trainB.length < 5){
+                        resolve(`train B is avilable`)
+                        clearInterval(id)
+                    }
+                    else if(trainC.length < 5){
+                        resolve(`train C is avilable`)
+                        clearInterval(id)
+                    }
+                }, 1000)
+            })
+            return promise
+        }
+
+        function cancelTiket(){
+            let speed = [
+                Math.floor( Math.random()*5 ),
+                Math.floor( Math.random()*10 ),
+                Math.floor( Math.random()*8 ),
+            ];
+
+            const ids = ["A","B","C"];
+
+            [trainA,trainB,trainC].forEach(function(train,index){
+                setTimeout(function(){
+                    train.pop()
+                    visualize(train,ids[index])
+                }, 1000*speed[index])
+            })
+        }
+        function bookTiket(){
+            let speed = [
+                Math.floor( Math.random()*4 ),
+                Math.floor( Math.random()*8 ),
+                Math.floor( Math.random()*6 ),
+            ];
+
+            const ids = ["A","B","C"];
+
+            [trainA,trainB,trainC].forEach(function(train,index){
+                setTimeout(function(){
+                    train.push()
+                    visualize(train,ids[index])
+                }, 1000*speed[index])
+            })
+        }
+
+        function visualize(train, id){
+            const qcontainer = document.getElementById(id);
+            qcontainer.innerHTML = "";
+            const ul = document.createElement("ul");
+            const li = document.createElement("li");
+            train.forEach(function(name){
+                const el = document.createElement("li");
+                el.textContent = name;
+                ul.append(el)
+            })
+            li.textContent = train.length;
+            qcontainer.append(ul,li)
+        }
+        visualize(trainA,"A")
+        visualize(trainB,"B")
+        visualize(trainC,"C")
+        var id = setInterval(cancelTiket,1000)
+
+        checkAvailability()
+        .then(function(res){
+            alert(res)
+            window.location.replace("book.html");
+        })
+        .catch(function(err){
+            console.log(err)
+        })
+    </script>
+</body>
+</html>

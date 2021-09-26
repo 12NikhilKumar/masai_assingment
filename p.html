@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 800px;
+            height: 800px;
+            padding: 50px;
+            margin: auto;
+            margin-top: 100px;
+        }
+        #box img{
+            width: 100%;
+            height: 80%;
+        }
+        #box h3 {
+            font-size: 40px;
+            color: teal;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <input id="itm" type="text" placeholder="Plese enter what you want">
+    <button id="sub">Place your order</button>
+    <div id="box"></div>
+    <script>
+        var arr = [{id:"pizza",image:"https://st.depositphotos.com/1003814/5052/i/950/depositphotos_50523105-stock-photo-pizza-with-tomatoes.jpg"},{id:"burger",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/1280px-RedDot_Burger.jpg"},{id:"hotdog",image:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Hot_dog_with_mustard.png/220px-Hot_dog_with_mustard.png"}]
+        function check(){
+            var item = document.getElementById("itm").value;
+            for(let i=0;i<arr.length;i++){
+                if(arr[i].id == item ){
+                    alert(`your food is being preperd`)
+                    hold(arr[i])
+                }
+            }
+        }
+        function hold(item){
+            return new Promise(function(resolve,reject){
+                var id = setTimeout(function(){
+                    post(item);
+                },5000);
+            })
+        }
+        function post(data){
+            var container = document.getElementById("box");
+            container.innerHTML = "";
+            var img = document.createElement("img");
+            var h3 = document.createElement("h3");
+            img.src = data.image;
+            h3.textContent = data.id;
+            container.append(img,h3);
+            container.style.border = "1px solid black";
+            alert("your food is ready");
+        }
+        var btn = document.getElementById("sub");
+        btn.addEventListener('click',check);
+    </script>
+</body>
+</html>
