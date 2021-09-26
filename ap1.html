@@ -7,7 +7,7 @@
     <title>Document</title>
     <style>
         #dis img{
-            width: 400px;
+            width: 600px;
             height: 400px;
         }
         #dis {
@@ -16,20 +16,91 @@
             text-align: center;
             border: 2px solid teal;
         }
+        #navbar {
+            width: 100%;
+            height: 80px;
+            background-color: orchid;
+            display: flex;
+            justify-content: center;
+            gap: 20%;
+        }
+        #navbar button {
+            width: 100px;
+            height: 45px;
+            border-radius: 7px;
+            margin-top: 20px;
+            background-color: palegreen;
+        }
     </style>
 </head>
 <body>
+    <div id="navbar">
+        <button id="sport">Sports</button>
+        <button id="ent">Entertainment</button>
+        <button id="tech">Technology</button>
+    </div>
     <h1 style="text-align: center;">Top 10 NEWS HEADLINES</h1>
     <div id="dis"></div>
     <script>
-        fetch("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=7765fba270674be9a4aaa8d17665f488")
+        var  display =  document.getElementById("dis");
+        const sportsBtn = document.getElementById("sport");
+        const entBtn = document.getElementById("ent");
+        const techBtn = document.getElementById("tech");
+        function sportNews(){
+            display.innerHTML = "";
+            fetch("https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=7765fba270674be9a4aaa8d17665f488")
+            .then(function(resolve){
+                return resolve.json()
+            })
+            .then(function(resolve){
+                console.log(resolve)
+                create(resolve.articles)
+            })
+            .catch(function(reject){
+                console.log(reject)
+            })
+        }
+        sportsBtn.addEventListener('click',sportNews)
+
+        function entertainmentNews(){
+            display.innerHTML = "";
+            fetch("https://newsapi.org/v2/top-headlines?country=in&category=entertainment&apiKey=7765fba270674be9a4aaa8d17665f488")
+            .then(function(resolve){
+                return resolve.json()
+            })
+            .then(function(resolve){
+                console.log(resolve)
+                create(resolve.articles)
+            })
+            .catch(function(reject){
+                console.log(reject)
+            })
+        }
+        entBtn.addEventListener('click',entertainmentNews)
+
+        function TechnologyNews(){
+            display.innerHTML = "";
+            fetch("https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=7765fba270674be9a4aaa8d17665f488")
+            .then(function(resolve){
+                return resolve.json()
+            })
+            .then(function(resolve){
+                console.log(resolve)
+                create(resolve.articles)
+            })
+            .catch(function(reject){
+                console.log(reject)
+            })
+        }
+        techBtn.addEventListener('click',TechnologyNews)
+
+        fetch("https://newsapi.org/v2/top-headlines?country=in&apiKey=7765fba270674be9a4aaa8d17665f488")
         .then(function(resolve){
             return resolve.json()
         })
         .then(function(resolve){
             console.log(resolve)
             create(resolve.articles)
-            return resolve
         })
         .catch(function(reject){
             console.log(reject)
@@ -40,7 +111,6 @@
             }
         }
         function post(data){
-            var display =  document.getElementById("dis");
             var img = document.createElement("img");
             var h1 = document.createElement("h3");
             var h2 = document.createElement("h4");
